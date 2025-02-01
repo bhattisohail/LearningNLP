@@ -2,7 +2,7 @@ from nltk.tokenize import word_tokenize
 from nltk import bigrams
 from collections import Counter
 
-# Tokenize by word
+
 def tokenize_words(text):
     """
     Tokenizes the input text into a list of words.
@@ -14,6 +14,7 @@ def tokenize_words(text):
         A list of strings, where each string is a word from the input text.
     """
     return word_tokenize(text)
+
 
 def find_bigrams(text):
     """
@@ -29,6 +30,7 @@ def find_bigrams(text):
     bigram_list = list(bigrams(words))
     return bigram_list
 
+
 def read_file(file_path):
     """
     Reads the content of a file.
@@ -43,9 +45,9 @@ def read_file(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             return file.read()
     except FileNotFoundError:
-        print(f"Error: File not found at {file_path}")  #Handles potential FileNotFoundError
-        return ""  # Return empty string to avoid errors later
-    except Exception as e: # Handles other potential exceptions during file reading
+        print(f"Error: File not found at {file_path}")
+        return "" 
+    except Exception as e:
         print(f"An error occurred while reading the file: {e}")
         return ""
 
@@ -61,6 +63,7 @@ def count_bigrams(bigram_list):
         A Counter object, where the keys are bigrams and the values are their counts.
     """
     return Counter(bigram_list)
+
 
 def main():
     """
@@ -80,6 +83,7 @@ def main():
     print("The 10 Most Common Bigrams in order are: ")
     for bigram, count in most_common_bigrams:
         print(f"{bigram}: {count}")
+
 
 if __name__ == "__main__":
     main()
