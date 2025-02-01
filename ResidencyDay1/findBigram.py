@@ -1,6 +1,14 @@
+import re
+
 from nltk.tokenize import word_tokenize
 from nltk import bigrams
 from collections import Counter
+
+
+def preprocess_text(text):
+    # Remove punctuation using regular expression
+    text = re.sub(r'[^\w\s]', '', text)
+    return text
 
 
 def tokenize_words(text):
@@ -13,7 +21,8 @@ def tokenize_words(text):
     Returns:
         A list of strings, where each string is a word from the input text.
     """
-    return word_tokenize(text)
+    preprocessed_text = preprocess_text(text)
+    return word_tokenize(preprocessed_text)
 
 
 def find_bigrams(text):
