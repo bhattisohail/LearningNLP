@@ -1,6 +1,7 @@
 import re
 
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
 from nltk import bigrams
 from collections import Counter
 
@@ -9,6 +10,19 @@ def preprocess_text(text):
     # Remove punctuation using regular expression
     text = re.sub(r'[^\w\s]', '', text)
     return text
+
+
+def tokenize_sentences(text):
+    """
+    Tokenizes the input text into a list of sentences.
+
+    Args:
+        text: The input text string.
+
+    Returns:
+        A list of strings, where each string is a sentence from the input text.
+    """
+    return sent_tokenize(text)
 
 
 def tokenize_words(text):
@@ -25,6 +39,20 @@ def tokenize_words(text):
     return word_tokenize(preprocessed_text)
 
 
+def remove_stopwords(words):
+    """
+    Removes stopwords from the list of words.
+
+    Args:
+        words: A list of words.
+
+    Returns:
+        A list of words with stopwords removed.
+    """
+    stop_words = set(stopwords.words('english'))
+    return [word for word in words if word.lower() not in stop_words]
+
+
 def find_bigrams(text):
     """
     Finds all bigrams in the input text.
@@ -35,9 +63,14 @@ def find_bigrams(text):
     Returns:
         A list of tuples, where each tuple represents a bigram (pair of consecutive words).
     """
-    words = tokenize_words(text)
-    bigram_list = list(bigrams(words))
-    return bigram_list
+    sentences = tokenize_sentences(text)
+    all_bigrams = []
+    for sentence in sentences:
+        words = tokenize_words(sentence)
+        words = remove_stopwords(words)
+        bigram_list = list(bigrams(words))
+        all_bigrams.extend(bigram_list)
+    return all_bigrams
 
 
 def read_file(file_path):
